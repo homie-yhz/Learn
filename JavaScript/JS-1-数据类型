@@ -1,0 +1,115 @@
+第一章 数据类型
+1.1
+5种原始类型的数据：string num boolean undefined null
+剩下的一种为object 对象类型
+（浏览器中的11个内置对象：String Number Boolean Array Function Math Date Object Error RegExp Global）
+1.2
+原始数据在运算过程中存在隐式转换：
++
+只要含有字符串都转化为字符串
+没有字符串 转化为数字
+
+-
+均转换为数字，如果存在无法转换的内容 ———> NaN
+
+比较大小：
+
+关系运算符：>,<,>=,<=
+相等运算符：==,===,!=,!==
+现在还是放在一起记忆比较好。
+
+如果两端含有number或者boolean 均转化为 number
+如果两端含有字符串：依此比较每个字符的ASCII码（['æski]）(数字<大写字母<小写字母)
+如果含有对象，尝试把对象转为基本类型
+
+特殊的：
+null在尝试比较的时候  优先转化为Number类型  但是null的类型是对象，但是不是对象
+***null==0 false
+
+new String('hi') == 'hi';  //true
+
+null==undefined true
+null===undefined false
+
+null 本身就是一个数据，可以参与比较
+Null 是一种类型 不代表任何东西
+"1.23"==1.23  true
+"1.230"==1.23  true
+
+NaN ≠ NaN
+
+
+
+1.3
+数据类型的强制转换
+只有5个值转换为boolean的时候为false：0,'',undefined,null,NaN
+其它均为true
+
+
+1.4
+数据类型的判断之typeof：
+也可以用作typeof();
+typeof(100) 'number'
+
+typeof 100  'number'
+typeof true 'boolean'
+typeof function 'function'
+
+
+例子：typeof(2015-06-06) 'number'   因为是：2015减去6再减去6
+比较适合判断 基本类型 和 function   遇到null失效
+因为：typeof null/[1,2,3]/new Object(); 'object';
+
+如何判断null，用某一数据严格等于null    x===null;
+
+数据类型判断之instanceof:
+obj instantceof Object 适合判断对象类型;
+
+instantceof 判断一个变量是否为某个对象的实例，或者原型链上是否（如果连对象都不是，肯定返回false）
+var a = 'a';  //string基本类型  非对象
+a instanceof String; //false
+不同的window之间 是不能用instanceof 来判断
+除了那5中基本类型；对象会有栈的概念：
+	var a = [1,2,3];
+	var b = [1,2,3];
+	a==b; //false 对象类型的值做比较的时候，地址与值都必须相同;
+
+	除非：var b = a;  //b引用了a的地址
+	a==b;//true
+数据类型判断之Object.prototype.toString.apply();
+Object.prototype.toString.apply(''); //'[object String]'
+Object.prototype.toString.apply(1); //'[object Number]'
+Object.prototype.toString.apply(true); //'[object Boolean]'
+Object.prototype.toString.apply([]); //'[object Array]'
+Object.prototype.toString.apply(function(){}); //'[object Function]'
+Object.prototype.toString.apply(null); // '[object Null]'
+Object.prototype.toString.apply(undefined); //'object Undefined'
+Object.prototype.toString.apply(/123/); //'object RegExp'
+
+Object.prototype.toString.apply(Math);
+"[object Math]"
+Object.prototype.toString.apply(Math.r);
+"[object Undefined]"
+Object.prototype.toString.apply(Math.round);
+"[object Function]"
+Object.prototype.toString.apply(Math.round());
+"[object Number]"
+
+该种方法可以判断任何类型的数据（原始类型和对象  本人在chrome浏览器亲测）
+但是IE6/7/8 Object.prototype.toString.apply(null/undefined);  // 返回 '[object Object]';
+基本类型是不应该有方法的，方法是对象才有的。但是ECMAScript提供了3中引用类型：Number String Boolean;
+当基本类型调用方法的时候，会把该变量包装成引用类型。
+要对一个对象添加新的(不是内置的)属性和方法：必须使用构造函数的形式来创建对象，在构造函数里面添加属性和方法：
+三种基本类型均有对应的包装类型：Number String Boolean
+
+字面量：
+var box = 'Mr.Lee';
+box.toUpperCase();    //A  调用内置的方法
+box.wife = 'Miss.Lee';
+console.log(box.wife);  //undefined  因为不是在他的构造函数里面添加
+
+new 运算符法：
+var box = new String('Mr.Lee');
+box.toUpperCase();   //A
+box.wife = 'Miss.Lee';
+console.log(box.wife);  //'Miss.Lee'

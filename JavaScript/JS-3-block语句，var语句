@@ -1,0 +1,44 @@
+3.block语句、var语句
+
+声明方式：
+var a=1;
+var a=b=1; // 该种方式定义的为 var a=1;    b=1(为没有声明的全局变量)
+var a=1,b=1;
+
+try catch finally
+
+try{
+	try{
+		throw new Error('1');
+	}
+	finally{
+		console.log('')
+	}
+}
+
+3.2 function
+
+fb();
+function fb(){
+
+} //可以执行fb() 函数；声明提前
+
+
+fe(); //TypeError;
+
+var fe = function(){
+
+} // 声明提前；赋值留在原地；
+
+我们可以近似的将 function 看成是var   声明方法  要将所有的var和function声明的变量提到前面去；
+而如果是var a=funciton(){}   就是讲var a提到前面了  但是 functin(){}还留在原地
+
+3.3 for...in
+
+3.4 switch
+
+switch(val){
+	case 1:
+		console.log();
+}
+

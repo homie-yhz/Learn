@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<style>
+  html{
+    font-family:'微软雅黑';}
+  h2{color:#FF7F2A}
+  input.ng-invalid {
+    background-color: lightblue;
+  }
+</style>
+<body >
+<h1>
+  AngularJS 通过 ng-directives 扩展了 HTML。 <br>
+  ng-app   指令定义一个 AngularJS 应用程序。 (angularjs 可以控制的区域) <br>
+  ng-model 指令把元素值（比如输入域的值）绑定到应用程序。 <br>
+  ng-bind  指令把应用程序数据绑定到 HTML 视图。<br>
+  ng开头的都是各种指令 <br>
+  表达式："{{}}"   类似于：ng-bind <br>
+  AngularJS 模块（Module） 定义了 AngularJS 应用。 <br>
+  AngularJS 控制器（Controller） 用于控制 AngularJS 应用。<br>
+  ng-app指令定义了应用, ng-controller 定义了控制器。<br>
+  ng-controller 要与  ng-model 一起使用  表示在 控制器的控制下  将 ng-model 中的值绑定到  其他表达式中。 <br>
+  可是设想：ng-model 是一个输入  而  ng-bind 是一个输出 或者绑定到 表达式：{{}}
+  <hr>
+
+</h1>
+<div  ng-app="myApp">
+  什么是 AngularJS？
+  <ul>
+    <li>使得开发现代的单一页面应用程序（SPAs：Single Page Applications）变得更加容易。</li>
+    <li>AngularJS 把应用程序数据绑定到 HTML 元素。</li>
+    <li>AngularJS 可以克隆和重复 HTML 元素。</li>
+    <li>AngularJS 可以隐藏和显示 HTML 元素。</li>
+    <li>AngularJS 可以在 HTML 元素"背后"添加代码。</li>
+    <li>AngularJS 支持输入验证。</li>
+  </ul>
+  <!--1-->
+  <div>
+    <h2>1.</h2>
+    <div>
+      <p>名字 : <input type="text" ng-model="name"></p>
+      <h1>Hello {{name}}</h1>
+    </div>
+    <div>解释：当网页加载完毕，AngularJS 自动开启。
+      ng-app 指令告诉 AngularJS，元素html是 AngularJS 应用程序 的"所有者"。
+      ng-model 指令把输入域的值绑定到应用程序变量 name。
+      ng-bind 指令把应用程序变量 name 绑定到某个段落的 innerHTML.
+    </div>
+  </div>
+
+  <!--2.控制器-->
+  <div>
+    <h2>2</h2>
+    <div ng-controller="myCtrl">
+      名: <input type="text" ng-model="firstName"><br>
+      姓: <input type="text" ng-model="lastName"><br>
+      <br>
+      姓名: {{firstName + " " + lastName}}
+    </div>
+  </div>
+
+  <!--3.表达式 初始化表达式 ng-bind 与  {{}}   不要使用ng-init  不推荐使用-->
+  <div>
+    <h2>3</h2>
+    <div ng-init="quantity=1;cost=5">
+      <p>总价： {{ quantity * cost }}</p>
+    </div>
+    <div ng-init="quantity=1;cost=5">
+      <p>总价： <span ng-bind="quantity * cost"></span></p>
+    </div>
+  </div>
+
+  <!--4.重复 html 元素-->
+  <div>
+    <h2>4.</h2>
+    <div ng-init="names1=['Jani','Hege','Kai']">
+      <p>使用 ng-repeat 来循环数组</p>
+      <ul>
+        <li ng-repeat="x in names1">
+          我的名字是：{{ x }} 或者 <span ng-bind="x"></span>
+        </li>
+      </ul>
+    </div>
+
+    <div ng-init="names2=[{name:'Jani',country:'Norway'},{name:'Hege',country:'Sweden'},{name:'Kai',country:'Denmark'}]">
+      <p>循环对象：</p>
+      <ul>
+        <li ng-repeat="x	in names2">
+          {{ x.name + ', ' + x.country }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!--5.创建自定义指令-->
+  <div>
+    <h2>5.创建自定义指令</h2>
+    <p>创建自定义的指令 <br>
+      除了 AngularJS 内置的指令外，我们还可以创建自定义指令。<br>
+      你可以使用 .directive 函数来添加自定义的指令。<br>
+      要调用自定义指令，HTML 元素上需要添加自定义指令名。<br>
+      使用驼峰法来命名一个指令， runoobDirective, 但在使用它时需要以 - 分割, runoob-directive:</p>
+    <div runoob-directive></div>
+    <runoob-directive></runoob-directive>
+  </div>
+
+  <!--6.验证用户表单输入-->
+  <!--表单输入的时候 ng-model 一定不要重复-->
+  <div>
+    <h2>6.验证用户表单输入</h2>
+    <form name="myForm">
+      Email:
+      <input type="email" name="myAddress" ng-model="text">
+      <span ng-show="myForm.myAddress.$error.email">不是一个合法的邮箱地址</span>
+    </form>
+
+    <p>ng-model 指令可以为应用数据提供状态值(invalid(无效的), dirty, touched, error(提示错误信息)):</p>
+
+    <form name="myForm1" ng-init="myText = 'test@runoob.com'">
+      Email:
+      <input type="email" name="myAddress" ng-model="text1" required></p>
+      <h1>状态</h1>
+      {{myForm1.myAddress.$valid}}
+      {{myForm1.myAddress.$dirty}}
+      {{myForm1.myAddress.$touched}}
+      <span  ng-show="myForm1.myAddress.$error.email">myForm1 中的邮箱地址不合法</span>
+    </form>
+
+    <p>ng-model 指令基于它们的状态为 HTML 元素提供了 CSS 类：</p>
+
+    <form name="myForm2">
+      输入你的名字:
+      <input type="text" name="myAddress" ng-model="text2" required>
+      <span  ng-show="myForm2.myAddress.$error.email">myForm2 中的邮箱地址不合法</span>
+    </form>
+  </div>
+
+  <!--7.作用域-->
+  <div>
+    <h2>7.作用域</h2>
+    <p>
+      Scope(作用域) 是应用在 HTML (视图) 和 JavaScript (控制器)之间的纽带。<br>
+      Scope 是一个对象，有可用的方法和属性。<br>
+      Scope 可应用在视图和控制器上。<br>
+      scope 是模型。<br>
+      scope 是一个 JavaScript 对象，带有属性和方法，这些属性和方法可以在视图和控制器中使用。
+    </p>
+    <hr>
+
+    <div ng-controller="myCtrl">
+      <span>当没有输入的时候充当视图，当输入的时候充当输入。</span><input ng-model="name">
+      <h1>我的名字是 {{name}} </h1>
+    </div>
+    <hr>
+
+    <div ng-controller="myCtrl">
+      <ul ng-repeat="x in names">
+        <li>{{x}}</li>
+      </ul>
+    </div>
+    <hr>
+    <h1>姓氏为 {{fackName}} 家族成员:</h1>
+    <div ng-controller="myCtrl">
+      <ul>
+        <li ng-repeat="x in names">{{x}} {{fackName}}</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</body>
+<script src="angular.min.js"></script>
+<script src="controllers.js"></script>
+<!--<script src="modules.js"></script>-->
+
+</html>

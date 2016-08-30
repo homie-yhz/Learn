@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="//cdn.bootcss.com/jquery/1.8.3/jquery.js"></script>
+  <script src="homieY.js"></script>
+  <title>Title</title>
+  <style>
+    .page{
+      display:-webkit-box;
+      display:-webkit-flex;
+      display:-ms-flexbox;
+      display:flex;
+      -webkit-box-pack: center;/* android 2.1-3.0, ios 3.2-4.3 */
+      -webkit-justify-content: center;/* Chrome 21+ */
+      -ms-flex-pack: center;/* WP IE 10 */
+      justify-content: center;/* android 4.4 */
+      -webkit-box-align: center;/* android 2.1-3.0, ios 3.2-4.3 */
+      -webkit-align-items: center;/* Chrome 21+ */
+      -ms-flex-align: center;/* WP IE 10 */
+      align-items: center;/* android 4.4 */
+    }
+    .page-num,.page-prev,.page-next{
+      height:30px;line-height: 30px;
+      text-align: center;
+      cursor:pointer;
+    }
+    .page-num{width:30px;margin:0 3px;}
+    .page-num:hover{
+      background-color: #D0ECB5;
+    }
+    .page-num.active{
+      background-color: #4EC0F8;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div id="d1">
+    <!--<div class="page-box">-->
+      <!--<div class="page">
+        <a class="page-prev">上一页</a>
+        <a class="page-num active">1</a>
+        <a class="page-num">2</a>
+        <a class="page-num">3</a>
+        <a class="page-num">4</a>
+        <a class="page-num">5</a>
+        <a class="page-next">下一页</a>
+      </div>-->
+    <!--</div>-->
+  </div>
+
+
+</body>
+<script>
+  /*$('.page-num').click(function(){
+    $('.page-num').removeClass('active');
+    $(this).addClass('active');
+  });
+  $('.page-prev').click(function(){
+    var $active = $('.active');
+    if(!$active.prev().hasClass('page-prev')){
+      $active.removeClass('active').prev().addClass('active');
+    }
+  });
+  $('.page-next').click(function(){
+    var $active = $('.active');
+    if(!$active.next().hasClass('page-next')){
+      $active.removeClass('active').next().addClass('active');
+    }
+  });*/
+</script>
+<script>
+  /*  /!*
+   *1.容器：一个即时执行的函数，匿名函数
+   *  外部无法访问到函数内部的公共变量和对象命名空间。这是一个很好的开始，这样你声明你的变量和对象的时候，就不用担心着变量名和已经存在的代码有冲突。
+   *
+   *!/
+   (function($){
+
+   })(jQuery);
+
+   /!*
+   * 2.
+   *!/
+
+   (function($) {
+   //“jQuery.fn”是“jQuery.prototype”的简写，意味当我们通过jQuery命名空间去获取我们的插件的时候，它仅可写（不可修改）
+   //上面的代码中的函数可以像其他的jQuery函数那样通过“$(‘#element’).pluginName()”来调用。
+   $.fn.pluginName = function(options) {   //插件代码
+
+   // 代码在此处运行
+   return this;  //此处的this 指代的是  jQuery对象
+   }
+
+   })(jQuery);
+
+
+   /!*3.*!/
+   (function($) {
+
+   // 向jQuery中被保护的“fn”命名空间中添加你的插件代码，用“pluginName”作为插件的函数名称
+   $.fn.add = function() {
+
+   // 返回“this”（函数each（）的返回值也是this），以便进行链式调用。
+   return this.each(function() {
+
+   // 此处运行代码，可以通过“this”来获得每个单独的元素
+   // 例如： $(this).show()；
+   var $this = $(this);
+   console.log($this.html());
+   });
+
+   }
+
+   })(jQuery);
+
+   /!*4.*!/
+   (function($) {
+
+   $.fn.add = function(options) {    //同样我们可以将参数放入进去   更方便的操作变量  这里的变量可以是任意类型的值。对象，数字，原始类型的数据
+
+   return this.each(function() {
+
+   var $this = $(this);
+   console.log($this.html()+options);
+   });
+
+   }
+   })(jQuery);
+
+   $('.d1').add('test');
+
+   /!*5.定义json 数据格式  来存储共有方法 和 似有方法*!/
+   (function($) {
+
+   // 在我们插件容器内，创造一个公共变量来构建一个私有方法
+   var privateFunction = function() {
+   // code here
+   console.log(1);
+   };
+
+   // 通过字面量创造一个对象，存储我们需要的共有方法
+   var methods = {
+   // 在字面量对象中定义每个单独的方法
+   init: function() {
+
+   // 为了更好的灵活性，对来自主函数，并进入每个方法中的选择器其中的每个单独的元素都执行代码
+   return this.each(function() {
+   // 为每个独立的元素创建一个jQuery对象
+   var $this = $(this);
+
+   // 执行代码
+   // 例如： privateFunction();
+   });
+   },
+   destroy: function() {
+   // 对选择器每个元素都执行方法
+   return this.each(function() {
+   // 执行代码
+   });
+   }
+   };
+
+   $.fn.pluginName = function() {
+   // 获取我们的方法，遗憾的是，如果我们用function(method){}来实现，这样会毁掉一切的
+   var method = arguments[0];
+
+   // 检验方法是否存在
+   if(methods[method]) {
+
+   // 如果方法存在，存储起来以便使用
+   // 注意：我这样做是为了等下更方便地使用each（）
+   method = methods[method];
+
+   // 如果方法不存在，检验对象是否为一个对象（JSON对象）或者method方法没有被传入
+   } else if( typeof(method) == 'object' || !method ) {
+
+   // 如果我们传入的是一个对象参数，或者根本没有参数，init方法会被调用
+   method = methods.init;
+   } else {
+
+   // 如果方法不存在或者参数没传入，则报出错误。需要调用的方法没有被正确调用
+   $.error( 'Method ' +  method + ' does not exist on jQuery.pluginName' );
+   return this;
+   }
+
+   // 调用我们选中的方法
+   // 再一次注意我们是如何将each（）从这里转移到每个单独的方法上的
+   return method.call(this);
+
+   }
+
+   })(jQuery);*/
+
+  //jQuery插件开发模式
+  /*jQuery插件开发方式主要有三种：
+   * 1.通过$.extend()来扩展jQuery
+   * 2.通过$.fn 向jQuery添加新的方法
+   * 3.通过$.widget()应用jQuery UI的部件工厂方式创建
+   */
+  //第一种方式又太简单，仅仅是在jQuery命名空间或者理解成jQuery身上添加了一个静态方法而以  类似 $.ajax()等方法一样
+
+  //例子 1
+ /* $.extend({
+    sayHello: function (name) {
+      console.log('Hello,' + (name ? name : 'Dude') + '!');
+    }
+  });
+  $.sayHello(); //调用
+  $.sayHello('Wayou'); //带参调用
+
+  //例子 2
+  $.extend({
+    log: function (message) {
+      var now = new Date(),
+              y = now.getFullYear(),
+              m = now.getMonth() + 1, //！JavaScript中月分是从0开始的
+              d = now.getDate(),
+              h = now.getHours(),
+              min = now.getMinutes(),
+              s = now.getSeconds(),
+              time = y + '/' + m + '/' + d + ' ' + h + ':' + min + ':' + s;
+      console.log(time + ' My App: ' + message);
+    }
+  });
+  $.log('initializing...'); //调用*/
+
+  //但这种方式无法利用jQuery强大的选择器带来的便利，要处理DOM元素以及将插件更好地运用于所选择的元素身上，还是需要使用第二种开发方式。你所见到或使用的插件也大多是通过此种方式开发。
+  //基本方法
+
+  //先看一下它的基本格式：
+
+  /*$.fn.pluginName = function() {
+    //your code goes here
+  };*/
+
+
+  /*$.fn.myPlugin = function() {
+    //在这里面,this指的是用jQuery选中的元素
+    //example :$('a'),则this=$('a')
+    this.css('color', 'red');
+  };*/
+  // 处理每一个具体的元素
+ /* $.fn.myPlugin = function() {
+    //在这里面,this指的是用jQuery选中的元素
+    this.css('color', 'red');
+    this.each(function() {
+      //对每个元素进行操作
+      $(this).append(' ' + $(this).attr('href'));
+    });
+  }*/
+
+  /*支持链式调用
+
+  我们都知道jQuery一个时常优雅的特性是支持链式调用，选择好DOM元素后可以不断地调用其他方法。
+
+  要让插件不打破这种链式调用，只需return一下即可。*/
+
+  /*$.fn.myPlugin = function() {
+    //在这里面,this指的是用jQuery选中的元素
+    this.css('color', 'red');
+    return this.each(function() {
+      //对每个元素进行操作
+      $(this).append(' ' + $(this).attr('href'));
+    });
+  };*/
+
+
+  //让插件接收参数
+  //在处理插件参数的接收上，通常使用jQuery的extend方法，上面也提到过，但那是给extend方法传递单个对象的情况下，
+  // 这个对象会合并到jQuery身上，所以我们就可以在jQuery身上调用新合并对象里包含的方法了，像上面的例子。
+  // 当给extend方法传递一个以上的参数时，它会将所有参数对
+  // 象合并到第一个里。同时，如果对象中有同名属性时，合并的时候后面的会覆盖前面的。
+  /*$.fn.myPlugin = function(options) {
+    var defaults = {
+      'color': 'red',
+      'fontSize': '12px'
+    };
+    var settings = $.extend(defaults, options);
+    return this.css({
+      'color': settings.color,
+      'fontSize': settings.fontSize
+    });
+  };
+  $('a').myPlugin({
+    'color': '#2C9929',
+    'fontSize':'30px'
+  });*/
+
+$(function(){
+
+  (function($, window, document,undefined) {
+    /*//定义Beautifier的构造函数
+    var Beautifier = function(ele, opt) {
+      this.$element = ele;
+              this.defaults = {
+                'color': 'red',
+                'fontSize': '12px',
+                'textDecoration': 'none'
+              };
+              this.options = $.extend({}, this.defaults, opt)
+    };
+    //定义Beautifier的方法
+    Beautifier.prototype = {
+      beautify: function() {
+        return this.$element.css({
+          'color': this.options.color,
+          'fontSize': this.options.fontSize,
+          'textDecoration': this.options.textDecoration
+        });
+      }
+    };
+    //在插件中使用Beautifier对象
+    $.fn.myPlugin = function(options) {
+      //创建Beautifier的实体
+      var beautifier = new Beautifier(this, options);
+      //调用其方法
+      return beautifier.beautify();
+    };*/
+
+    $.fn.page = function(page_num,active_num){
+      var html='',htmlList = '';
+      var $prev = $('.page-prev');
+      var $next = $('.page-next');
+      for(var i=0;i<page_num;i++){
+        htmlList+='<a class="page-num">'+(i+1)+'</a>';
+      }
+
+
+      var pageBox = function(prev,next,page){
+
+      };
+
+      pageBox.prototype = {
+
+      };
+
+
+
+      html = '<div class="page"><a class="page-prev">上一页</a>'+htmlList+'<a class="page-next">下一页</a></div>';
+      this.append(html);
+      $('.page-num').eq(active_num-1).addClass('active');
+
+      $('.page-prev').click(function(){
+        var $active = $('.active');
+        if(!$active.prev().hasClass('page-prev')){
+          $active.removeClass('active').prev().addClass('active');
+        }
+      });
+      $('.page-next').click(function(){
+        var $active = $('.active');
+        if(!$active.next().hasClass('page-next')){
+          $active.removeClass('active').next().addClass('active');
+        }
+      });
+      $('.page-num').click(function(){
+        $('.page-num').removeClass('active');
+        $(this).addClass('active');
+      });
+    };
+
+  })(jQuery, window, document);
+
+  $('#d1').page(3,2);
+});
+
+</script>
+</html>

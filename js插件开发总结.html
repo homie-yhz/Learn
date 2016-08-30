@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>function总结</title>
+</head>
+<body>
+
+</body>
+<script>
+  //利用构造函数来创建对象
+  function Person(name){
+
+    //构造函数 共有属性
+    this.name = name;
+    this.age = 16;
+
+    //函数内部 私有属性
+    var height = '116';
+    var options = {
+      weight:'55kg',
+      color:'white'
+    }
+
+  }
+/*  //一个方法的写法
+  Person.prototype.walk = function(){
+    console.log(this.name+'is walking!');
+  };*/
+  //多个方法的写法
+
+  Person.prototype = {
+    constructor :Person,   //需要重置 Fun1的 构造函数，如果不重置的话  ，prototype 属性是指向 object 对象的  。
+    walk:function(){
+      console.log(this.name+' is walking!');
+    },
+    eat:function(){
+      console.log(this.name+' is eatting!');
+    }
+  };
+
+  var a = new Person('ad');
+
+  console.log(a.walk());
+  console.log(a.eat());
+  console.log(a.height); //undefined
+
+
+
+  function myObject(msg){
+    //特权属性(公有属性)
+    this.myMsg = msg; //只在被实例化后的实例中可调用
+    this.address = '上海';
+
+    //私有属性
+    var name = '豪情';
+    var age = 29;
+    var that = this;
+
+    //私有方法
+    function sayName(){
+      alert(that.name);
+    }
+    //特权方法(公有方法)
+    //能被外部公开访问
+    //这个方法每次实例化都要重新构造而prototype是原型共享，所有实例化后，都共同引用同一个
+    this.sayAge = function(){
+      alert(name); //在公有方法中可以访问私有成员
+    };
+    //私有和特权成员在函数的内部，在构造函数创建的每个实例中都会包含同样的私有和特权成员的副本，
+    //因而实例越多占用的内存越多
+  }
+  //公有方法
+  //适用于通过new关键字实例化的该对象的每个实例
+  //向prototype中添加成员将会把新方法添加到构造函数的底层中去
+  myObject.prototype.sayHello = function(){
+    alert('hello everyone!');
+  };
+  //静态属性
+  //适用于对象的特殊实例，就是作为Function对象实例的构造函数本身
+  myObject.name = 'china';
+  //静态方法
+  myObject.alertname = function(){
+    alert(this.name);
+  };
+  //实例化
+  var m1 = new myObject('111');
+
+
+
+
+</script>
+</html>
