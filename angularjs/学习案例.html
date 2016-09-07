@@ -208,8 +208,6 @@
       <h1>{{theTime}}</h1>
     </div>
   <p>$interval 访问在指定的周期(以毫秒计)来调用函数或计算表达式。</p>
-  </div>
-
 
     <h3>创建自定义服务</h3>
     <div ng-controller="myCtrl">
@@ -218,12 +216,65 @@
       <h1>{{attrs}}</h1>
     </div>
 
-  <h3>在过滤器中使用自定义服务</h3>
-  <div>
-    在过滤器中使用服务:
-    <h1>{{255 | myFormat}}</h1>
+    <h3>在过滤器中使用自定义服务</h3>
+    <div>
+      在过滤器中使用服务:
+      <h1>{{255 | myFormat}}</h1>
+    </div>
+
   </div>
 
+  <!--10.AngularJS $http-->
+
+  <div>
+    <h2>10.AngularJS $http</h2>
+    <ul ng-controller="jsonCtrl">
+      <li ng-repeat="x in names">
+        {{ x.Name + ', ' + x.Country }}
+      </li>
+    </ul>
+  </div>
+
+
+  <!--11.select-->
+  <div>
+    <h2>11.select</h2>
+    <div ng-controller="myCtrl">
+      <select ng-model="selectedName" ng-options="x for x in names"></select>
+    </div>
+    <hr>
+    <p>ng-repeat 与 ng-option 的区别</p>
+
+    <select ng-controller="myCtrl">
+      <option ng-repeat="x in names">{{x}}</option>
+    </select>
+    <hr>
+
+    <div ng-controller="myCtrl">
+      <select ng-model="selectedSite">
+        <option ng-repeat="x in sites" value="{{x.url}}">{{x.site}}</option>
+      </select>
+      <h3>你选择的是: {{selectedSite}}</h3>
+    </div>
+
+    <div ng-controller="myCtrl">
+      <select ng-model="selectedSite" ng-options="x.site for x in sites"></select>
+      <h3>你选择的是: {{selectedSite.site}}</h3>
+      <p>网址为: {{selectedSite.url}}</p>
+    </div>
+    <p>此时 x.site for x in sites 中要将x.site 当做option的选项内容，x为一个对象</p>
+    <hr>
+
+    <div ng-controller="myCtrl">
+      <select ng-model="selectedCar" ng-options="y.brand for (x, y) in cars"></select>
+      <h3>车牌: {{selectedCar.brand}}</h3>
+      <h3>型号: {{selectedCar.model}}</h3>
+      <h3>颜色: {{selectedCar.color}}</h3>
+    </div>
+    <p>如果是对象的话，就会含有2个参数 x，y 对应的是 key 和 value </p>
+    <p>如果是数组的话，就会含有1个参数 x    </p>
+
+  </div>
 
 </div>
 </body>
