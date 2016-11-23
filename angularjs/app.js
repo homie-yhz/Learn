@@ -1,0 +1,1 @@
+/** * Created by yindi on 16/11/9. */var app = angular.module('myApp',[]);

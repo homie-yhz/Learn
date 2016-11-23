@@ -1,0 +1,1 @@
+/** * Created by yindi on 16/11/15. */app.controller('')app.directive('tempBody',function(){   return {       restrict:'E',       template:       '<ul ng-controller="repeatCtrl">' +            '<li ng-repeat="x in data">' +                '<p ng-bind="x"></p>' +            '</li>' +       '</ul>',       replace:true   } });
